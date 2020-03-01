@@ -17,7 +17,7 @@ async function update(channel) {
 	.setColor('#9342f5')
 	.setTitle(body.name)
 	.setURL('https://www.chrono.gg/')
-	.setAuthor('Chrono.gg Bot by jb', 'https://pbs.twimg.com/profile_images/705158228959748096/OPCXSf4V_400x400.jpg', 'https://github.com/jbyers44/chronobot')
+	.setAuthor('Chrono.gg', 'https://pbs.twimg.com/profile_images/705158228959748096/OPCXSf4V_400x400.jpg', 'https://github.com/jbyers44/chronobot')
 	.setDescription(time.format("dddd, MMMM Do"))
 	.setThumbnail(body.og_image)
 	.addField('Steam Link', body.steam_url)
