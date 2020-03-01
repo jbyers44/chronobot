@@ -1,17 +1,19 @@
 const discord = require('discord.js')
-const axios = require('axios')
-const moment = require('moment')
 const schedule = require('node-schedule')
 
 require('dotenv').config()
 
 const client = new discord.Client()
 
-async function update(channel) {
+const axios = require('axios')
+const moment = require('moment')
+
+var channel
+
+async function update() {
     res = await axios.get('https://api.chrono.gg/sale')
     body = res.data
     var time = moment(body.start_date)
-    console.log(body)
 
     const embed = new discord.RichEmbed()
 	.setColor('#9342f5')
@@ -32,10 +34,18 @@ async function update(channel) {
     channel.send(embed)
 }
 
+function update_handler() {
+    var rule = new schedule.RecurrenceRule()
+    rule.second = 0
+    rule.hour = 12
+    schedule.scheduleJob(rule, function () {
+        update()
+    })
+}
+
 client.once('ready', () => {
-    const channel = client.channels.get(process.env.CHANNEL_ID)
-    update(channel)
-    //schedule.scheduleJob('0 12 * * *', update(channel));
+    channel = client.channels.get(process.env.CHANNEL_ID)
+    update_handler()
 })
 
 client.login(process.env.DISCORD_TOKEN)
