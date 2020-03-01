@@ -11,22 +11,23 @@ async function update(channel) {
     res = await axios.get('https://api.chrono.gg/sale')
     body = res.data
     var time = moment(body.start_date)
+    console.log(body)
 
     const embed = new discord.RichEmbed()
 	.setColor('#9342f5')
-	.setTitle('Some title')
-	.setURL('https://discord.js.org/')
+	.setTitle(body.name)
+	.setURL('https://www.chrono.gg/')
 	.setAuthor('Chrono.gg Bot by jb', 'https://pbs.twimg.com/profile_images/705158228959748096/OPCXSf4V_400x400.jpg', 'https://github.com/jbyers44/chronobot')
-	.setDescription('Some description here')
-	.setThumbnail('https://i.imgur.com/wSTFkRM.png')
-	.addField('Regular field title', 'Some value here')
+	.setDescription(time.format("dddd, MMMM Do"))
+	.setThumbnail(body.og_image)
+	.addField('Steam Link', body.steam_url)
 	.addBlankField()
-	.addField('Inline field title', 'Some value here', true)
-	.addField('Inline field title', 'Some value here', true)
-	.addField('Inline field title', 'Some value here', true)
-	.setImage('https://i.imgur.com/wSTFkRM.png')
+	.addField('Retail Price', '$' + body.normal_price, true)
+	.addField('Sale Price', '$' + body.sale_price, true)
+	.addField('Discount', body.discount, true)
+	.setImage(body.promo_image)
 	.setTimestamp()
-    .setFooter('Some footer text here', 'https://i.imgur.com/wSTFkRM.png');
+    .setFooter('jb/chronobot', 'https://pbs.twimg.com/profile_images/705158228959748096/OPCXSf4V_400x400.jpg');
     
     channel.send(embed)
 }
